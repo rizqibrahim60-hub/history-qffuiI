@@ -1,0 +1,1662 @@
+<html lang="ar" dir="rtl"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تاريخ الأنبياء والسيرة النبوية وانتشار الإسلام - 102 سؤالاً</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&amp;family=Almarai:wght@700;800&amp;display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', 'Almarai', sans-serif; }
+        body { background-color: #051329; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        
+        .main-controls { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; background: #08162e; padding: 10px 20px; border-radius: 50px; border: 1px solid #d4af37; justify-content: center; box-shadow: 0 10px 25px rgba(0,0,0,0.4); z-index: 1000; align-items: center; }
+        .btn-ctrl { border: none; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 800; cursor: pointer; color: #ffffff; transition: all 0.2s ease; }
+        .btn-nav { background: #1e3a8a; } 
+        .btn-pdf { background: #0284c7; } 
+        .btn-img { background: #10b981; } 
+        .btn-pen { background: #b45309; } 
+        .btn-pen.active { background: #d97706; border: 2px solid #fff; box-shadow: 0 0 10px #d97706; }
+        .btn-reset-ans { background: #d97706; }
+        .btn-delete-q { background: #dc2626; }
+        .btn-print-all { background: #d97706; color: #ffffff; }
+        .btn-save-file { background: #7c3aed; }
+
+        .pen-toolbar { display: none; gap: 12px; margin-bottom: 15px; background: #111d38; padding: 8px 22px; border-radius: 30px; border: 1.5px solid #10b981; align-items: center; z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .color-dot { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #fff; cursor: pointer; display: inline-block; transition: 0.2s; }
+        .color-dot.selected { transform: scale(1.25); border-width: 3px; border-color: #d4af37; }
+        .pen-size-select { background: #051329; color: #fff; border: 1px solid #d4af37; padding: 4px 12px; border-radius: 10px; font-weight: bold; font-size: 13px; }
+        .btn-clear-canvas { background: #ef4444; color: white; border: none; padding: 6px 14px; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 12px; transition: 0.2s; }
+        .btn-clear-canvas:hover { background: #dc2626; }
+
+        #quiz-app-wrapper { position: relative; width: 100%; max-width: 980px; }
+        
+        #quiz-app { width: 100%; background: #ffffff; border-radius: 24px; overflow: hidden; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6); border: 4px solid #081d3d; display: flex; flex-direction: column; justify-content: space-between; }
+        
+        #drawCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 500; touch-action: none; border-radius: 24px; }
+        #drawCanvas.drawing-active { 
+            pointer-events: auto; 
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="%23d4af37" stroke="%23051329" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>') 2 32, crosshair; 
+        }
+
+        .top-header {
+            background: linear-gradient(180deg, #071c3d 0%, #0d2859 100%);
+            padding: 18px 30px;
+            color: #ffffff;
+            border-bottom: 4px solid #d4af37;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-center { text-align: center; flex-grow: 1; }
+        .main-title { font-size: 21px; font-weight: 900; color: #ffffff; line-height: 1.2; }
+        .sub-title { color: #d4af37; font-size: 13px; font-weight: 700; margin-top: 3px; }
+        .author-name { color: #d4af37; font-size: 14px; font-weight: 800; margin-top: 4px; }
+        .header-icon-circle { width: 50px; height: 50px; border-radius: 50%; border: 2px solid #d4af37; background: rgba(255, 255, 255, 0.05); display: flex; align-items: center; justify-content: center; font-size: 22px; color: #d4af37; }
+
+        .progress-bar-container { background: #e2e8f0; height: 6px; width: 100%; }
+        .progress-bar { background: #10b981; height: 100%; width: 1%; transition: width 0.2s ease; }
+
+        .status-row { display: flex; justify-content: space-between; padding: 12px 40px 0 40px; font-size: 15px; font-weight: 900; color: #0d2859; }
+
+        .card-body { padding: 20px 40px 30px 40px; flex-grow: 1; display: flex; flex-direction: column; gap: 16px; justify-content: center; }
+
+        /* شريحة العنوان */
+        #cover-screen { text-align: center; padding: 35px 20px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+        .cover-ministry { font-size: 14px; font-weight: 800; color: #d4af37; line-height: 1.5; }
+        .cover-book-title { font-size: 42px; font-weight: 900; color: #d4af37; margin: 10px 0; text-shadow: 0 2px 4px rgba(0,0,0,0.15); }
+        .cover-book-subtitle { font-size: 20px; font-weight: 800; color: #d4af37; }
+        .cover-details { font-size: 14px; font-weight: 700; color: #475569; line-height: 1.5; }
+        .cover-edition { font-size: 13px; font-weight: 800; color: #d4af37; margin-top: 5px; }
+        .btn-start-quiz { background: #0d2859; color: #d4af37; border: 2px solid #d4af37; padding: 12px 40px; border-radius: 30px; font-size: 18px; font-weight: 800; cursor: pointer; margin-top: 15px; transition: 0.3s; }
+        .btn-start-quiz:hover { background: #071c3d; }
+
+        .main-question-card { border: 2.5px solid #0d2859; border-radius: 18px; padding: 18px 24px; background: #ffffff; box-shadow: 0 4px 15px rgba(13, 40, 89, 0.04); }
+        .question-header-row { display: flex; align-items: center; justify-content: space-between; gap: 15px; }
+        .q-right-group { display: flex; align-items: center; gap: 15px; flex-grow: 1; }
+        .badge-q-tag { background: #0d2859; color: #d4af37; border: 1.5px solid #d4af37; padding: 7px 18px; border-radius: 10px; font-size: 17px; font-weight: 800; white-space: nowrap; }
+        .q-text-content { font-size: 18px; font-weight: 800; color: #0f172a; line-height: 1.4; }
+
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .opt-btn { background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 12px; padding: 12px 18px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: 0.2s ease; text-align: right; box-shadow: 0 2px 6px rgba(0,0,0,0.03); }
+        .opt-btn:hover:not([disabled]) { border-color: #0d2859; background: #f0f9ff; transform: translateY(-2px); }
+        .opt-letter { width: 32px; height: 32px; background: #e2e8f0; color: #0d2859; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 15px; flex-shrink: 0; margin-right: 12px; }
+        .opt-text { font-size: 15px; font-weight: 800; color: #1e293b; flex-grow: 1; }
+
+        .opt-btn.correct { background: #ecfdf5 !important; border-color: #10b981 !important; }
+        .opt-btn.correct .opt-letter { background: #10b981 !important; color: #ffffff !important; }
+        .opt-btn.wrong { background: #fef2f2 !important; border-color: #ef4444 !important; }
+        .opt-btn.wrong .opt-letter { background: #ef4444 !important; color: #ffffff !important; }
+
+        .check-mark {
+            font-size: 20px;
+            font-weight: 900;
+            color: #10b981;
+            margin-right: auto;
+            margin-left: 10px;
+            background: #d1fae5;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1.5px solid #10b981;
+        }
+
+        #result-screen { display: none; text-align: center; padding: 40px 20px; }
+        .result-score { font-size: 48px; font-weight: 900; color: #10b981; margin: 15px 0; }
+        .btn-restart { background: #0d2859; color: #d4af37; border: 2px solid #d4af37; padding: 12px 35px; border-radius: 25px; font-size: 16px; font-weight: 800; cursor: pointer; margin-top: 20px; }
+
+        .bottom-footer {
+            background: linear-gradient(180deg, #071c3d 0%, #0d2859 100%);
+            border-top: 4px solid #d4af37;
+            padding: 12px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #ffffff;
+        }
+
+        .footer-sec { display: flex; align-items: center; gap: 10px; }
+        .footer-sec-center { text-align: center; }
+        .footer-icon-circle { width: 40px; height: 40px; background: rgba(255, 255, 255, 0.05); border: 1.5px solid #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; color: #d4af37; }
+        .footer-meta { display: flex; flex-direction: column; }
+        .footer-text-title { font-size: 11px; color: #d4af37; font-weight: 700; }
+        .footer-text-val { font-size: 14px; font-weight: 900; direction: ltr; color: #d4af37; letter-spacing: 0.5px; }
+        .footer-author-main { font-size: 17px; font-weight: 900; color: #d4af37; }
+
+        @media print {
+            body { background: none; padding: 0; }
+            .main-controls, .pen-toolbar, .progress-bar-container, .status-row, #drawCanvas { display: none !important; }
+            #quiz-app { box-shadow: none; border: 2px solid #081d3d; max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-controls">
+        <button class="btn-ctrl btn-nav" id="btn-prev" onclick="prevQ()">➔ السابق</button>
+        <button class="btn-ctrl btn-pen" id="penToggleBtn" onclick="togglePen()">✏️ قلم الشرح الحقيقي</button>
+        <button class="btn-ctrl btn-nav" id="btn-next" onclick="nextQ()">التالي ⬅</button>
+        <div style="width:1px; height:20px; background:#d4af37;"></div>
+        <button class="btn-ctrl btn-pdf" onclick="window.print()">📄 طباعة الشاشة الحالية PDF</button>
+        <button class="btn-ctrl btn-print-all" onclick="printAllQuestionsPDF()">🖨️ تصدير الكل PDF</button>
+        <button class="btn-ctrl btn-img" onclick="exportImage()">🖼️ تصدير صورة مميزة الإجابة PNG</button>
+        <button class="btn-ctrl btn-save-file" onclick="saveModifiedFile()">💾 حفظ التعديلات في ملف</button>
+        <button class="btn-ctrl btn-reset-ans" onclick="resetCurrentAnswer()">🔄 مسح الإجابة</button>
+        <button class="btn-ctrl btn-delete-q" onclick="deleteCurrentQuestion()">❌ حذف السؤال</button>
+    </div>
+
+    <div class="pen-toolbar" id="penToolbar">
+        <span style="color:#d4af37; font-weight:bold; font-size:13px;">الألوان:</span>
+        <span class="color-dot selected" style="background: #d4af37;" onclick="setPenColor('#d4af37', this)" title="ذهبي"></span>
+        <span class="color-dot" style="background: #2563eb;" onclick="setPenColor('#2563eb', this)" title="أزرق"></span>
+        <span class="color-dot" style="background: #16a34a;" onclick="setPenColor('#16a34a', this)" title="أخضر"></span>
+        <span class="color-dot" style="background: #e11d48;" onclick="setPenColor('#e11d48', this)" title="أحمر"></span>
+        <span class="color-dot" style="background: #ffffff;" onclick="setPenColor('#ffffff', this)" title="أبيض"></span>
+
+        <span style="color:#d4af37; font-weight:bold; font-size:13px; margin-right:5px;">السماكة:</span>
+        <select class="pen-size-select" id="penSizeSelect" onchange="setPenSize(this.value)">
+            <option value="1.5">خط رفيع دقيق</option>
+            <option value="2.5" selected="">قلم حقيقي مثالي</option>
+            <option value="5">قلم كتابة واضح</option>
+            <option value="12">قلم تظليل عريض</option>
+        </select>
+
+        <button class="btn-clear-canvas" onclick="clearCanvas()">🗑️ مسح الخطوط</button>
+    </div>
+
+    <div id="quiz-app-wrapper">
+        <canvas id="drawCanvas" width="980" height="540"></canvas>
+        <div id="quiz-app">
+            <div class="top-header">
+                <div class="header-icon-circle">📜</div>
+                <div class="header-center">
+                    <div class="main-title">موسوعة السيرة النبوية والتاريخ الإسلامي (<span id="total-q-badge">105</span> سؤالاً)</div>
+                    <div class="sub-title">الرخصة المهنية - تخصص التاريخ</div>
+                    <div class="author-name">إبراهيم أبوزيد | معلّم ومدرب وباحث</div>
+                </div>
+                <div class="header-icon-circle">⚔️</div>
+            </div>
+
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar" style="width: 100%;"></div>
+            </div>
+
+            <!-- شريحة العنوان -->
+            <div id="cover-screen" style="display: none;">
+                <div class="cover-ministry">المملكة العربية السعودية<br>وزارة التربية والتعليم — التطوير التربوي</div>
+                <div class="cover-book-title">تاريخ</div>
+                <div class="cover-book-subtitle">الأنبياء والسيرة النبوية وانتشار الإسلام</div>
+                <div class="cover-details">
+                    للصف الأول الثانوي<br>
+                    الفصل الدراسي الأول — بنات<br>
+                    (تعليم عام - تحفيظ قرآن)
+                </div>
+                <div class="cover-edition">طبعة 1428 هـ - 1429 هـ / 2007 م - 2008 م</div>
+                <button class="btn-start-quiz" onclick="startQuizFromCover()">ابدأ الاختبار 🚀</button>
+            </div>
+
+            <div id="quiz-screen" style="display: none;">
+                <div class="status-row">
+                    <span id="question-count">السؤال 105 من 105</span>
+                    <span id="score-count">النقاط: 1</span>
+                </div>
+
+                <div class="card-body">
+                    <div class="main-question-card">
+                        <div class="question-header-row">
+                            <div class="q-right-group">
+                                <div class="badge-q-tag" id="q-badge">السؤال 105</div>
+                                <div class="q-text-content" id="q-text">من هو القائد المسلم الذي فك أسر الأندلس وحررها من أطماع الفرنجة في معركة بلاط الشهداء الأولى؟</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="options-grid" id="options-container"><button class="opt-btn"><span class="opt-text">عبد الرحمن الغافقي</span><span class="opt-letter">أ</span></button><button class="opt-btn"><span class="opt-text">عبد العزيز بن موسى</span><span class="opt-letter">ب</span></button><button class="opt-btn"><span class="opt-text">طارق بن زياد</span><span class="opt-letter">ج</span></button><button class="opt-btn"><span class="opt-text">موسى بن نصير</span><span class="opt-letter">د</span></button></div>
+                </div>
+            </div>
+
+            <!-- الشريحة الأخيرة -->
+            <div id="result-screen" style="display: block;">
+                <h2 style="font-size: 25px; color: #d4af37; font-weight: 900; line-height: 1.6; margin-bottom: 20px; padding: 0 20px;">قم بالاطلاع علي دراسة تفصيلة للمناهج القديمة والحديثة في دورتنا</h2>
+                <div class="result-score" id="final-score" style="display:none;">0 / 102</div>
+                <button class="btn-restart" onclick="restartQuiz()">إعادة الاختبار 🔄</button>
+            </div>
+
+            <div class="bottom-footer">
+                <div class="footer-sec" style="direction: ltr;">
+                    <div class="header-icon-circle" style="width:40px; height:40px; font-size:18px;">✈</div>
+                    <div class="footer-meta" style="text-align: left;">
+                        <span class="footer-text-title">حساب تليجرام</span>
+                        <span class="footer-text-val">t.me/myibhistoricy</span>
+                    </div>
+                </div>
+
+                <div class="footer-sec-center">
+                    <div class="footer-author-main">إبراهيم أبوزيد</div>
+                </div>
+
+                <div class="footer-sec">
+                    <div class="footer-meta" style="text-align: right;">
+                        <span class="footer-text-title">رقم الهاتف</span>
+                        <span class="footer-text-val">966 55 783 1353</span>
+                    </div>
+                    <div class="header-icon-circle" style="width:40px; height:40px; font-size:18px;">📞</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var rawCardsData = [
+    {
+        "q": "ماذا طلب إبليس من الله سبحانه وتعالى بعد طرده واستكباره عن أمر ربه؟",
+        "options": [
+            "سأل إبليس ربه أن ينظره إلى يوم الدين (أن يملي له في الحياة حتى يوم يبعثون)",
+            "سأل ربه أن يتوب عليه ويعيده إلى مرتبته الأولى في الملأ الأعلى",
+            "سأل ربه أن يجعل له سلطاناً قاهراً على الأنبياء وحدهم دون البشر",
+            "سأل ربه أن يجعله خازناً لبيت مال الجنة"
+        ],
+        "correct": 0
+    },
+    {
+        "q": "ما هو الوعيد الذي أقسم إبليس أن يفعله مع ذرية آدم عليه السلام؟",
+        "options": [
+            "أن يفتن ذرية آدم عليه السلام ويغويَنّهم إلا عباد الله المخلصين، وأن لأملأ جهنم منهم ومن تبعهم أجمعين",
+            "أن يبني لهم المدن ويشرع لهم شرائع مخالفة لأمر الله",
+            "أن يعلمهم العلوم والحكم ويمنع عنهم الشر والضلال",
+            "أن يجعلهم أمة واحدة متفقة على طاعة الرحمن"
+        ],
+        "correct": 0
+    },
+    {
+        "q": "كيف كانت نهاية عاقبة أكل آدم وزوجه من الشجرة التي نهاهما عنها الله سبحانه وتعالى؟",
+        "options": [
+            "أنزل عليهما عذاباً شديداً فقتلهم في الحال",
+            "تركهما في الجنة وأباح لهما كل شجارها دون قيود",
+            "جعلهما ملائكة مقربين في السماوات العلى",
+            "أخرجهما الله سبحانه وتعالى من الجنة، دار النعيم والسرور إلى دار التعب والكدر والشقاء"
+        ],
+        "correct": 3
+    },
+    {
+        "q": "كيف تعامل النبي صلى الله عليه وسلم مع الشفاعة في الحد عندما كلمهُ أسامة بن زيد رضي الله عنهما في شأن المرأة المخزومية التي سرقت؟",
+        "options": [
+            "تلون وجه رسول الله صلى الله عليه وسلم وقال: أتكلم في حد من حدود الله؟ ثم قام خطيباً فقال: إنما أهلك الذين قبلكم أنهم كانوا إذا سرق فيهم الشريف تركوه وإذا سرق فيهم الضعيف أقاموا عليه الحد",
+            "استشار أصحابه في إسقاط الحد عنها تالفاً لقلوب قومها حديثي الإسلام",
+            "قبل الشفاعة وكتب لها عفوًا خاصًا نظراً لمكانة قومها الاجتماعية في مكة",
+            "أجل تنفيذ الحكم حتى يتم التحقيق مع بقية أفراد أسرتها المتورطين"
+        ],
+        "correct": 0
+    },
+    {
+        "q": "ما هي القاعدة الأساسية التي حكمت مرحلة تبليغ الدعوة في بدايتها من حيث السر أو الجهر؟",
+        "options": [
+            "وجوب الإسرار بالدعوة طوال فترة العهد المكي حتى لو توفرت أسباب القوة",
+            "عدم وجود قاعدة ثابتة وتترك حرية الاختيار لتقدير الصحابة المدافعين عن الدعوة",
+            "يجب الإسرار بالدعوة إذا كان الجهر أو القتال يضر بها، ولا يجوز الإسرار إذا توفرت أسباب القوة والدفاع عنها",
+            "وجوب الجهر بالدعوة في كل الأحوال بغض النظر عن قوة المسلمين أو ضعفهم"
+        ],
+        "correct": 2
+    },
+    {
+        "q": "ما هو أول إجراء أو توجيه إلهي تلقاه النبي صلى الله عليه وسلم بعد مرحلة الإسرار لبدء تبليغ الدعوة للناس؟",
+        "options": [
+            "أن يهاجر سراً إلى المدينة المنورة لبناء نواة الدولة الإسلامية الأولى",
+            "أن يعلن الجهاد المسلح في وجه كفار قريش دفاعاً عن المستضعفين",
+            "أن يكتب إلى ملوك الفرس والرومان يدعوهم للإسلام والتوحيد",
+            "أن ينذر عشيرته الأقربين، فصعد على الصفا ونادى في قريش بأنه رسول رب العالمين إليهم"
+        ],
+        "correct": 3
+    },
+    {
+        "q": "ما هي أبرز الأماكن وتجمعات الناس التي كان يرتادها النبي صلى الله عليه وسلم لتبليغ الدعوة وتوسيع مجالها خارج نطاق العشيرة؟",
+        "options": [
+            "ذهابه عند الكعبة، أو في الأسواق كذهابه إلى سوق ذي المجاز وسوق عكاظ، وفي مواسم الحج في منى، أو مساكن القبائل كدهابه إلى ثقيف في الطائف",
+            "أسواق المدينة المنورة وحصون اليهود الحصينة شمال شبه الجزيرة",
+            "المعابد الوثنية الشهيرة في جنوب جزيرة العرب ومواسم تجارة الأطياب",
+            "حواضر المدن الكبرى في بلاد الشام ومجالس تجار قوافل قريش الكبرى"
+        ],
+        "correct": 0
+    },
+    {
+        "q": "من هو الصحابي الجليل الذي بعثه النبي صلى الله عليه وسلم إلى اليمن قاضياً ومعلماً للناس؟",
+        "options": [
+            "علي بن أبي طالب رضي الله عنه",
+            "أبو عبيدة بن الجراح رضي الله عنه",
+            "عمر بن الخطاب رضي الله عنه",
+            "معاذ بن جبل رضي الله عنه"
+        ],
+        "correct": 0
+    },
+    {
+        "q": "من هم أبرز الملوك والأمراء الذين أرسل إليهم النبي صلى الله عليه وسلم رسائل يدعوهم فيها إلى الإسلام والتوحيد؟",
+        "options": [
+            "حاكم مصر المقوقس، وملك الأندلس، وملك البحرين المنذر بن ساوي، والنجاشي",
+            "قيصر الروم، وكسرى الفرس، وملك مصر، وملك بربر إفريقيا",
+            "النجاشي ملك الحبشة، والمقوقس حاكم مصر، وكسرى ملك الفرس، وقيصر الروم، والمنذر بن ساوي ملك البحرين وغيرهم",
+            "ملك الصين، وملك الهند، وإمبراطور اليابان، وقائد جند الحبشة"
+        ],
+        "correct": 2
+    },
+    {
+        "q": "على أي أساس دعا رسول الله صلى الله عليه وسلم إلى الإسلام؟",
+        "options": [
+            "على أساس الحكمة والموعظة الحسنة والجدل بالحجة؛ تنفيذاً لأمره تعالى: (ادع إلى سبيل ربك بالحكمة والموعظة الحسنة وجادلهم بالتي هي أحسن)",
+            "على أساس القوة العسكرية، والضغط السياسي، والمعجزات المادية الباهرة",
+            "على أساس الاجتهاد الفلسفي المطلق والتوافق التجاري بين قبائل شبه الجزيرة",
+            "على أساس تدرج التشريعات الوضعية المقبولة لدى أعراف العرب التقليدية"
+        ],
+        "correct": 0
+    },
+    {
+        "q": "ما هو المبدأ المنهجي الذي يتضمنه أسلوب النظر في أحوال المخاطبين وظروفهم من أساليب النبي صلى الله عليه وسلم في الدعوة؟",
+        "options": [
+            "تكليفهم بجميع الأوامر والنواهي الشرعية دفعة واحدة لضمان سرعة الالتزام",
+            "تأجيل تبليغ الأحكام الشرعية الصعبة حتى ينتقل المسلمون إلى مرحلة الدولة والسلطة",
+            "فلا يكلفهم من الأوامر والنواهي إلا بالقدر الذي أمره الله سبحانه بإبلاغه لهم، حتى لا يثقل عليهم بالتكاليف قبل استعداد النفوس لها",
+            "اقتصار الدعوة على النخبة المثقفة من القبائل وترك العامة لظروفهم التقليدية"
+        ],
+        "correct": 2
+    },
+    {
+        "q": "ما هي غاية الدعوة إلى الله تعالى وأثرها على حياة الناس في الدنيا والآخرة؟",
+        "options": [
+            "إصلاح الناس وإسعادهم، وانتظام شؤون البشرية على منهج الإسلام الدين الحق، ليقضوا حياتهم في رضا وسعادة",
+            "جمع الأموال وتوزيع الغنائم لتنظيم الحياة الاقتصادية للمجتمع الإسلامي الناشئ",
+            "تحقيق الهيمنة السياسية والتوسع الجغرافي لقبائل العرب في حواضر العالم",
+            "إقامة المهرجانات الدينية والأسواق الموسمية المنظمة لتنظيم العلاقات التجارية"
+        ],
+        "correct": 0
+    },
+    {
+        "q": "ما هي الغزوة الأولى التي وقعت في العام الثاني للهجرة بحسب الترتيب الزمني لغزوات الرسول صلى الله عليه وسلم؟",
+        "options": [
+            "غزوة بني قينقاع",
+            "غزوة بدر الكبرى",
+            "غزوة أحد",
+            "غزوة الأبواء"
+        ],
+        "correct": 3
+    },
+    {
+        "q": "أي من الغزوات الآتية وقعت زمنياً في العام الثالث للهجرة؟",
+        "options": [
+            "غزوة تبوك",
+            "غزوة الخندق (الأحزاب)",
+            "غزوة بني النضير",
+            "غزوة أحد"
+        ],
+        "correct": 3
+    },
+    {
+        "q": "ما هي الغزوة التي وقعت في العام الثامن للهجرة ضمن الترتيب الزمني لغزوات النبي صلى الله عليه وسلم؟",
+        "options": [
+            "غزوة تبوك",
+            "غزوة الحديبية",
+            "فتح مكة",
+            "غزوة بني قريظة"
+        ],
+        "correct": 2
+    },
+    {
+        "q": "رتب غزوات النبي صلى الله عليه وسلم الكبرى الآتية (فتح مكة، غزوة أحد، غزوة بدر الكبرى، غزوة الخندق، غزوة تبوك) ترتيباً تصاعدياً صحيحاً من القديم إلى الحديث بحسب وقت وقوعها التاريخي:",
+        "options": [
+            "غزوة الخندق ← غزوة بدر الكبرى ← غزوة أحد ← فتح مكة ← غزوة تبوك",
+            "غزوة أحد ← غزوة بدر الكبرى ← غزوة الخندق ← فتح مكة ← غزوة تبوك",
+            "غزوة بدر الكبرى ← غزوة الخندق ← غزوة أحد ← غزوة تبوك ← فتح مكة",
+            "غزوة بدر الكبرى (2 هـ) ← غزوة أحد (3 هـ) ← غزوة الخندق (5 هـ) ← فتح مكة (8 هـ) ← غزوة تبوك (9 هـ)"
+        ],
+        "correct": 3
+    },
+    {
+        "q": "ما هي العوامل الحقيقية للنصر في الثبات عند لقاء العدو؟",
+        "options": [
+            "الدعم المالي والسياسي الخارجي وتحالف القبائل العربية الكبرى",
+            "الاتصال بالله بالذكر، والطاعة لله ولرسوله، فالنصر من عند الله لمن لا يُبعد كافة متطلبات القتال ويهيئ عوامل النصر",
+            "كثرة العدد والعديد، وتوافر الأسلحة المادية المتطورة، والتدريب العسكري المكثف",
+            "الخطط العسكرية التكتيكية المحكمة وتوزيع الفرسان على الميمنة والميسرة"
+        ],
+        "correct": 1
+    },
+    {
+        "q": "ما هو المثال التاريخي الذي يوضح حنكة القيادة النبوية في أخذ رأي الصحابة رضوان الله عليهم في غزوة بدر الكبرى؟",
+        "options": [
+            "أخذ برأي عبد الرحمن بن عوف في جمع المعلومات العسكرية عن قريش",
+            "أخذ برأي سلمان الفارسي في حفر الخندق وحصار الطائف",
+            "أخذ برأي بريدة بن الحصيب في تأمين طرق قوافل المدينة المنورة",
+            "أخذ برأي الحُبَاب بن المُنذِر رضي الله عنه في تحديد موقع النزول والمعركة"
+        ],
+        "correct": 3
+    },
+    {
+        "q": "ما هو الهدف من إرسال النبي صلى الله عليه وسلم لدوريات الاستطلاع وسرايا القتال الأولى بعد أشهر من وصوله إلى المدينة؟",
+        "options": [
+            "فرض السيطرة على تجارة الشام وتأمين الطرق التجارية الكبرى نحو اليمن",
+            "إعلان الحرب الشاملة على كافة قبائل شبه الجزيرة العربية لتوحيدها قسراً",
+            "لتعرف المسلمون على الطرق المحيطة بالمدينة والمؤدية إلى مكة خاصة، وليدعوا بعض قبائل المنطقة إلى الإسلام، وليصدوا حركات المشركين",
+            "شن غارات مباغتة لجمع الغنائم المالية واختبار قوة جيش قريش الاقتصادي"
+        ],
+        "correct": 2
+    },
+    {
+        "q": "كيف كانت نسبة عدد قوات المسلمين إلى قوات المشركين في غزوة بدر الكبرى؟",
+        "options": [
+            "كان عدد قوات المسلمين ثلث عدد قوات المشركين",
+            "كان عدد قوات المسلمين يعادل نصف عدد قوات المشركين",
+            "كان عدد قوات المسلمين مساوياً تماماً لعدد قوات المشركين",
+            "كان عدد قوات المسلمين ضعف عدد قوات المشركين"
+        ],
+        "correct": 0
+    },
+    {
+        "q": "ما هو الموقف الذي وقفه النبي صلى الله عليه وسلم عندما تفرقت جموع المسلمين في الوادي مدبرة بسبب كمين أعدائهم في يوم حنين؟",
+        "options": [
+            "أمر بالانسحاب الفوري لإعادة تنظيم الصفوف خلف الجبال المجاورة لوادي حنين",
+            "ترجل عن بغلته وتوجه سراً نحو معسكرات هوازن وثقيف لاستطلاع مواقعهم",
+            "بقي النبي صلى الله عليه وسلم ثابتاً ثباتاً عجيباً امتد إلى نفوس أولئك الفارين من أصحابه عندما أخذ ينادي وهو على بغلته: أنا النبي لا كذب أنا ابن عبد المطلب",
+            "أرسل سرية خاصة من الفرسان لحماية ميسرة الجيش ومنع تقدم المشركين"
+        ],
+        "correct": 2
+    },
+    {
+        "q": "بماذا أجاب النبي صلى الله عليه وسلم صاحبه أبا بكر رضي الله عنه وهما في غار ثور حين أخذ أبا بكر الروع من اقتراب أقدام المطاردين؟",
+        "options": [
+            "قال له: \"يا أبا بكر ما ظنك باثنين الله ثالثهما\"",
+            "قال له: \"لا تحزن إن الله معنا ونصرنا قريب لا محالة\"",
+            "قال له: \"احمد الله الذي سترنا عن أعين القوم وجعل بيننا وبينهم حجاباً مستوراً\"",
+            "أمره بالصمت التام والتخفي خلف صخور الغار الداخلية حتى ينصرف المطاردون"
+        ],
+        "correct": 0
+    },
+    {
+        "q": "ما هو الدرس المستفاد المتعلق بحقيقة النصر ومقاييسه في يوم حنين؟",
+        "options": [
+            "أن الكثرة العددية هي الأساس الأوحد لحسم المعارك الكبرى ضد المشركين واليهود",
+            "أن النصر يتحقق حصراً بتفوق العدة والعدد وجودة السلاح المادي في ساحات القتال",
+            "أن النصر يتوقف على كفاءة القيادة العسكرية ومهارتها في توزيع الخطط التكتيكية",
+            "أن النصر لا يكون بكثرة العدد ولا بجودة السلاح فقط، ولكن يكون بالإيمان الذي يغمر نفوس المجاهدين، ويدفعهم إلى التضحية والفداء"
+        ],
+        "correct": 3
+    },
+    {
+        "q": "ماذا فعل النبي صلى الله عليه وسلم ومن معه بعد أن سمع المسلمون الصوت وعادت إليهم رباطة الجأش في يوم حنين؟",
+        "options": [
+            "عقدوا هدنة مؤقتة مع القبائل الهاربة لتأمين حدود الحرم المكي",
+            "أمر بانسحاب الجيش بالكامل نحو مكة لإعادة ترتيب الصفوف واستدعاء المؤن",
+            "أقبلوا وقد عادت إليهم من ذلك المشهد رباطة الجأش وقوة العزيمة، وتجمعوا حول الرسول صلى الله عليه وسلم وكان النهار قد طلع",
+            "توجه نحو حصون هوازن وثقيف لفرض حصار عسكري شامل عليها"
+        ],
+        "correct": 2
+    },
+    {
+        "q": "كيف تعامل النبي صلى الله عليه وسلم مع فلول المشركين بعد معركة أحد عندما أعلنوا تفكيرهم بالعودة للقضاء على المسلمين في المدينة؟",
+        "options": [
+            "انتظر في المدينة حتى يصلوا إليها ثم خندق حولها دفاعاً عنها",
+            "أرسل وفداً للتفاوض معهم وعقد معاهدة صلح مؤقتة",
+            "انسحب بالمسلمين نحو الصحراء لتجنب المواجهة المباشرة",
+            "لم يكرد في أمر المسلمين، ولم يكُترث بما يُحْدِق به من أخطار وما هذا إلا ثقة بالله وتوكلاً عليه"
+        ],
+        "correct": 3
+    },
+    {
+        "q": "لماذا كان رسول الله صلى الله عليه وسلم يعطي المؤلفة قلوبهم من المال بعد حنين؟",
+        "options": [
+            "لتسديد ديونهم ومساعدتهم على استقرار أحوالهم الاقتصادية في مكة",
+            "بالقدر الذي تدعو إليه مصلحة تأليف قلوبهم، لأن المادة كانت تطغى على تفكيرهم إذ لم يستشعروا بعد حلاوة الإيمان",
+            "لتمويل تجهيز حملاتهم العسكرية القادمة نحو حواضر شبه الجزيرة",
+            "لشراء ولائهم السياسي ومنعهم من التحالف مع قبائل الروم والفرس"
+        ],
+        "correct": 1
+    },
+    {
+        "q": "كيف نظم رسول الله صلى الله عليه وسلم خطة فتح مكة؟",
+        "options": [
+            "قسم جيشه إلى فرقتين رئيسيتين لدخول مكة من الشمال والجنوب عبر بطن الوادي",
+            "دخل مكة بقوة عسكرية مركزية واحدة لتفادي أي احتكاك مع قبائل قريش في الأطراف",
+            "أدخل في حسابه كل الاحتمالات عند تنظيم خطته لفتح مكة، فقد كانت الخطة تؤمن تطويق البلد من جهاته الأربع بقوات مكتفية بذاتها وبإمكانها العمل مستقلة عن القوات الأخرى",
+            "اعتمد على أسلوب المفاجأة الليلية وحصار الأسواق التجارية الكبرى دون قتال"
+        ],
+        "correct": 2
+    },
+    {
+        "q": "من هو الصحابي الذي اختاره النبي صلى الله عليه وسلم ليكون مقاتلاً بمعرفته بشجاعته في واجبات تحتاج إلى الشجاعة في فتح مكة؟",
+        "options": [
+            "أبو دجانة رضي الله عنه",
+            "أسامة بن زيد رضي الله عنه",
+            "خالد بن الوليد رضي الله عنه",
+            "سعد بن أبي وقاص رضي الله عنه"
+        ],
+        "correct": 0
+    },
+    {
+        "q": "ما الذي كان يفعله النبي صلى الله عليه وسلم عندما كانت تعترض المسلمين صخراً أو نحوها في حفر الخندق؟",
+        "options": [
+            "يتركها مكانها ويأمر بتغيير مسار حفر الخندق لتجنب صلابتها",
+            "يدعو أبا بكر وعمر رضي الله عنها لكسرها بمعولهما القوي",
+            "فضربها بمعوله، فتفتت وتعود تراباً ناعماً",
+            "يأمر الصحابة بتفجيرها بالنار والوسائل الحجرية المتاحة لعدم قدرتهم على كسرها"
+        ],
+        "correct": 2
+    },
+    {
+        "q": "ما وصف الصحابي الجليل علي بن أبي طالب رضي الله عنه لشجاعة النبي صلى الله عليه وسلم في المعارك؟",
+        "options": [
+            "\"كنا إذا احمر البأس ولقي القوم القوم اتقينا برسول الله صلى الله عليه وسلم فما يكون منا أحد أدنى إلى القوم منه\"",
+            "\"ما رأيت شجاعاً أطول صبراً منه في مواجهة الحصار والجلوس في الخنادق\"",
+            "\"كان أسبقنا إلى صفوف القتال وأبعدنا عن مواقع الخطر والكمائن\"",
+            "\"كان يجلس في خلف الصفوف يدير المعركة ويوجه السرايا بحنكة بالغة\""
+        ],
+        "correct": 0
+    },
+    {
+        "q": "كيف وصف الصحابي الجليل أنس رضي الله عنه خلق رسول الله صلى الله عليه وسلم في التعامل مع الناس؟",
+        "options": [
+            "\"كان أشد الناس حرصاً على إقناع خصومه وتأديب من يخالفه في مجالس المدينة\"",
+            "\"كان رسول الله صلى الله عليه وسلم من أحسن الناس خلقاً، يقبل بوجهه وحديثه على من يعرف ومن لا يعرف، ولم يضرب شيئاً قط بيده إلا أن يجاهد في سبيل الله، وما سئل قط فقال: لا\"",
+            "\"ما عاب طعاماً قط، وكان يعنف من يقصر في أداء الصلاة والعبادات\"",
+            "\"كان يقبل بوجهه وحديثه على الأقوياء فقط ويضرب بيده دفاعاً عن حياض الإسلام\""
+        ],
+        "correct": 1
+    },
+    {
+        "q": "ما هو الموقف الذي كان يتخذه النبي صلى الله عليه وسلم إذا قُدّم إليه طعام لا يشتهيه؟",
+        "options": [
+            "يعيده إلى طاهيه معاتباً إياه على عدم إجادة طبخه",
+            "يأكل منه قليلاً ثم يوزعه على الفقراء والمحتاجين حاضري المجلس",
+            "وما عاب طعاماً قط، إن اشتهاه أكله وإلا تركه",
+            "يطلب طعاماً آخر يناسب ذوقه الخاص في الطعام والشراب"
+        ],
+        "correct": 2
+    },
+    {
+        "q": "كيف كان وصف النبي صلى الله عليه وسلم في منطقه وحلاوة كلامه بين الناس؟",
+        "options": [
+            "كان عليه الصلاة والسلام أحسن الناس منطقاً فصيح اللسان أوتي جوامع الكلم، وإذا تكلم تكلم بأناة يعطي الكلام حقه، ولكلامه حلاوة",
+            "كان يقتصر على الصمت النافع ولا يمزح مع أصحابه قط هيبةً للرسالة",
+            "كان يطيل الكلام ويفصل العبارات ليفهم عنه الأعراب وأهل البادية",
+            "كان يخطب في الناس بالفصحى المعقدة التي لا يدركها إلا الخواص"
+        ],
+        "correct": 0
+    },
+    {
+        "q": "ما هي صفة مزاح النبي صلى الله عليه وسلم مع أصحابه؟",
+        "options": [
+            "كان يمزح كثيراً ويذكر الفكاهات التي تثير ضحك أصحابه في المجالس العامة",
+            "كان يمزح ولا يقول إلا حقاً ويمزح مع الكبير والصغير ومن أمثلة ذلك مزاحه مع خادمه أنس بن مالك بقوله له (يا ذا الأذنين)",
+            "لم يكن يمزح أبداً لتكون القدوة صارمة في طاعة الأحكام الشرعية",
+            "كان يمزح مداعباً أعداءه وكفار قريش لتأليف قلوبهم نحو الإسلام"
+        ],
+        "correct": 1
+    },
+    {
+        "q": "ما هي الوصية النبوية الجامعة التي وجهها النبي صلى الله عليه وسلم لأصحابه في التيسير؟",
+        "options": [
+            "\"شددوا ولا تيسروا، وبشروا ولا تنفروا، وخذوا الدين بقوة وعزيمة\"",
+            "\"يسروا ولا تعسرا ولا تنفروا وساكنوا ولا تنفروا\"",
+            "\"التزموا بالعبادة المنقطعة ولا تقربوا الرخص ولا تتركوا النوافل\"",
+            "\"احملوا الناس على الشدة حتى لا ينفرط عقد الجماعة في المدينة\""
+        ],
+        "correct": 1
+    },
+    {
+        "q": "كيف كان وصف فراش النبي صلى الله عليه وسلم وطعامه في عيشه وزهده؟",
+        "options": [
+            "كان فراش النبي صلى الله عليه وسلم أدماً، حشوه ليف، وطعامه في أكثر أحيانه خبز الشعير",
+            "كان فراشه من حرير دمشق وطعامه ألوان اللحوم والفاكهة الطيبة",
+            "كان فراشه رقيقاً من قطن اليمن وطعامه خبز البر والزيت الخالص",
+            "كان ينام على أريكة فاخرة ويأكل مع ضيوفه أفضل ما تقدمه أسواق المدينة"
+        ],
+        "correct": 0
+    },
+    {
+        "q": "ما هي صفة كرم النبي صلى الله عليه وسلم وعطائه؟",
+        "options": [
+            "كان يعطي عطاء من يخشى الفقر إذا أتاه سائل من سادة قريش",
+            "كان يجود بالعطاء في موسم الحج فقط ويمسك يده باقي العام",
+            "كان الرسول صلى الله عليه وسلم يعطي عطاء من لا يخشى الفقر، وكان أجود الناس بالخير، وكان أجود ما يكون في رمضان",
+            "كان يدخر الأموال والذهب لإنفاقها في حروب الدولة الكبرى"
+        ],
+        "correct": 2
+    },
+    {
+        "q": "كيف كان تعامل النبي صلى الله عليه وسلم مع أعماله الخاصة في بيته؟",
+        "options": [
+            "كان رسول الله صلى الله عليه وسلم يقضي حاجة أهله ويقوم بأعماله الخاصة بنفسه فيحلب شاته، ويخصف نعله، ويرقع ثوبه",
+            "كان يأمر أصحابه وخدمه بتولي كافة شؤونه المنزلية وتنظيف حجرته",
+            "كان يعزل نفسه في بيته متفرغاً للعبادة تاركاً شؤون أهله لزوجاته",
+            "كان يرفض القيام بأي عمل من أعمال البيت هيبة لنبوته ومكانته"
+        ],
+        "correct": 0
+    },
+    {
+        "q": "ما هو موقف النبي صلى الله عليه وسلم عندما أرسل إليه ملك الجبال ليطبق الأخشيب على أهل الطائف؟",
+        "options": [
+            "قال: \"بل أرجو أن يخرج الله من أصلابهم من يعبد الله وحده لا يشرك به شيئاً\"",
+            "طلب مهلة شهر كامل للتفاوض مع زعمائهم قبل إنزال العذاب بهم",
+            "أمر بتطبيق الأخشيب عليهم فوراً انتقاماً لما ألحقوه به من أذى وتكذيب",
+            "شفع لهم عند ملك الجبال وطلب الاكتفاء بفرض جزية مالية عليهم"
+        ],
+        "correct": 0
+    },
+    {
+        "q": "كيف كان تعامل النبي صلى الله عليه وسلم مع دعوة الحر والعبد والأمة والمسكين؟",
+        "options": [
+            "كان يشترط لإجابة الدعوة أن تكون في حواضر المدن الكبرى دون القرى",
+            "كان رسول الله صلى الله عليه وسلم يجيب دعوة الحر والعبد والأمة والمسكين، يقول: \"لو دعيت إلى ذراع أو كراع لأجبت، ولو أهدي لي ذراع أو كراع لقبلت\"",
+            "كان يرفض قبول الهدايا ويقتصر على أكل ما ينتجه بيده في السوق",
+            "كان يقبل دعوة سادة قريش ويستنكف عن إجابة دعوة الموالي والضعفاء"
+        ],
+        "correct": 1
+    },
+    {
+        "q": "كيف كان تعريف العادل في سياق صفة العدل النبوي؟",
+        "options": [
+            "هو الذي يقسم الغنائم بالتساوي المطلق بين جميع المقاتلين بغض النظر عن بلاءهم",
+            "هو الذي يتنازل عن حقوق المسلمين لتحقيق السلام والمصادقة مع الخصوم",
+            "هو الذي يحكم بين الناس بالعرف السائد ويراعي مصالح القبائل الكبرى",
+            "هو الذي يحكم بالحق ولا يميل به الهوى فيجور في الحكم"
+        ],
+        "correct": 3
+    },
+    {
+        "q": "كيف كان موقف النبي صلى الله عليه وسلم مع غورث بن الحارث عندما وقف فوقه بالسيف وهو نائم تحت الشجرة؟",
+        "options": [
+            "استيقظ فجأة فهجم عليه وانتزع السيف منه وقتله دفاعاً عن نفسه",
+            "نادى أصحابه ليقبضوا عليه ويقدموه للمحاكمة بتهمة محاولة الاغتيال",
+            "استيقظ فوجد غورث والقائم والسيف مسلط على رأسه، فقال له غورث: من يمنعني منك؟ وبقلب مؤمن ولسان صادق أجابه صلى الله عليه وسلم على الفور الله، فسقط السيف من يد الرجل، فأخذه النبي صلى الله عليه وسلم فقال: من يمنعني منك؟ قال: كن خير آخذ، فخلى سبيله وعفا عنه",
+            "استسلم له وطلب منه العفو والصفح خوفاً من حد السيف"
+        ],
+        "correct": 2
+    },
+    {
+        "q": "كيف تصرف النبي صلى الله عليه وسلم عندما توفي ابن سلول وجاء ابنه عبدالله يطلب قميصه ليكفن به أباه؟",
+        "options": [
+            "أعطاه قميصاً آخر من ثياب أصحابه حفاظاً على هيبة الدولة الإسلامية",
+            "لم يحدث فقد سبق حلم رسول الله غضبه، وأعطى قميصه عبدالله ليكفن به أباه ابن سلول وقال له: \"آذني لأصلي عليه\"",
+            "رفض إعطاءه قميصه وذكّر ابنه بجرائمه وكفره وعدائه للمسلمين",
+            "طلب استشارة كبار الصحابة قبل اتخاذ قرار إعطائه القميص"
+        ],
+        "correct": 1
+    },
+    {
+        "q": "كيف كان تعامل النبي صلى الله عليه وسلم مع الحسن بن علي رضي الله عنهما عندما ركب ظهره وهو ساجد؟",
+        "options": [
+            "نهى الصحابة عن السماح للأطفال بدخول مسجد المدينة أثناء الصلاة",
+            "أمر أحد الصحابة بإبعاد الحسن برفق ليتمكن من إتمام الركعة",
+            "قطع صلاته فوراً وأنزل الحسن عن ظهره خشية بطلان الصلاة",
+            "فأبطأ في سجوده حتى نزل الحسن فلما فرغ قال له بعض أصحابه رضوان الله عليهما"
+        ],
+        "correct": 3
+    },
+    {
+        "q": "ما هي صفة حلم النبي صلى الله عليه وسلم في التعامل مع أذى الناس؟",
+        "options": [
+            "كان يشتكي من آذى الناس إلى كبار عشيرته لحمايته ودفع الأذى عنه",
+            "كان يقابل الإساءة بمثلها لردع المخالفين ومنع تكرار الأخطاء",
+            "كان يعرض عن الجاهلين ويأمر أصحابه بمقاطعتهم اجتماعياً واقتصادياً",
+            "كان الرسول صلى الله عليه وسلم هادئ الخلق، حليم الطبع يتعامل مع الناس بلطف ويحث على الرفق وينهى عن الغضب"
+        ],
+        "correct": 3
+    },
+    {
+        "q": "من هو أول من آمن بالنبي صلى الله عليه وسلم من الرجال؟",
+        "options": [
+            "علي بن أبي طالب رضي الله عنه",
+            "أبو بكر الصديق رضي الله عنه",
+            "عثمان بن عفان رضي الله عنه",
+            "زيد بن حارثة رضي الله عنه"
+        ],
+        "correct": 1
+    },
+    {
+        "q": "في أي عام هجري وقعت غزوة أحد؟",
+        "options": [
+            "السنة الثانية للهجرة",
+            "السنة الرابعة للهجرة",
+            "السنة الأولى للهجرة",
+            "السنة الثالثة للهجرة"
+        ],
+        "correct": 3
+    },
+    {
+        "q": "ما هو اسم الغزوة التي قادها المسلمون في العام الخامس للهجرة للدفاع عن المدينة؟",
+        "options": [
+            "غزوة بدر",
+            "غزوة الخندق (الأحزاب)",
+            "غزوة حنين",
+            "غزوة تبوك"
+        ],
+        "correct": 1
+    },
+    {
+        "q": "في أي عام تم صلح الحديبية بين المسلمين وقريش؟",
+        "options": [
+            "السنة السادسة للهجرة",
+            "السنة السابعة للهجرة",
+            "السنة الخامسة للهجرة",
+            "السنة الثامنة للهجرة"
+        ],
+        "correct": 0
+    },
+    {
+        "q": "ما هي السورة القرآنية التي نزلت في بيعة الرضوان؟",
+        "options": [
+            "سورة الأنفال",
+            "سورة الفتح",
+            "سورة محمد",
+            "سورة التوبة"
+        ],
+        "correct": 1
+    },
+    {
+        "q": "كم بلغ عدد المسلمين في عام الفتح (فتح مكة)؟",
+        "options": [
+            "ثلاثة آلاف مقاتل",
+            "عشرة آلاف مقاتل",
+            "ألفا مقاتل",
+            "خمسة آلاف مقاتل"
+        ],
+        "correct": 1
+    },
+    {
+        "q": "ما هي المعجزة الكبرى الخالدة التي أُيد بها النبي صلى الله عليه وسلم؟",
+        "options": [
+            "انشقاق القمر",
+            "القرآن الكريم",
+            "حنين الجذع",
+            "الإسراء والمعراج"
+        ],
+        "correct": 1
+    },
+    {
+        "q": "من هو الصحابي الذي أشار على النبي صلى الله عليه وسلم بحفر الخندق؟",
+        "options": [
+            "أبو بكر الصديق",
+            "سلمان الفارسي",
+            "علي بن أبي طالب",
+            "عمر بن الخطاب"
+        ],
+        "correct": 1
+    },
+    {
+        "q": "في أي شهر ولد النبي صلى الله عليه وسلم بحسب المشهور عند السيرة؟",
+        "options": [
+            "شهر محرم",
+            "شهر رمضان",
+            "شهر ربيع الأول",
+            "شهر رجب"
+        ],
+        "correct": 2
+    },
+    {
+        "q": "ما اسم أم النبي صلى الله عليه وسلم؟",
+        "options": [
+            "فاطمة بنت أسد",
+            "آمنة بنت وهب",
+            "خديجة بنت خويلد",
+            "حليمة السعدية"
+        ],
+        "correct": 1
+    },
+    {
+        "q": "من هو كفيل النبي صلى الله عليه وسلم بعد وفاة جده عبد المطلب؟",
+        "options": [
+            "حمزة بن عبد المطلب",
+            "أبو لهب",
+            "العباس بن عبد المطلب",
+            "أبو طالب"
+        ],
+        "correct": 3
+    },
+    {
+        "q": "في أي عمر توفيت أم النبي صلى الله عليه وسلم آمنة بنت وهب بالأبواء وهي راجعة من المدينة؟",
+        "options": [
+            "وهو ابن سنتين",
+            "وهو ابن ست سنين",
+            "وهو ابن ثمان سنين",
+            "وهو ابن أربع سنين"
+        ],
+        "correct": 1
+    },
+    {
+        "q": "من هي المرضعة التي أرضعت النبي صلى الله عليه وسلم في بني سعد؟",
+        "options": [
+            "أم أيمن",
+            "حليمة السعدية",
+            "ثويبة مولاة أبي لهب",
+            "بيضاء بنت عبد المطلب"
+        ],
+        "correct": 1
+    },
+    {
+        "q": "في أي مكان نزل الوحي أول مرة على النبي صلى الله عليه وسلم؟",
+        "options": [
+            "في دار الأرقم",
+            "في غار ثور",
+            "في المسجد الحرام",
+            "في غار حراء على جبل النور"
+        ],
+        "correct": 3
+    },
+    {
+        "q": "كم استمرت الدعوة الإسلامية سراً في مكة المكرمة؟",
+        "options": [
+            "عشر سنوات",
+            "سنة واحدة",
+            "ثلاث سنوات",
+            "خمس سنوات"
+        ],
+        "correct": 2
+    },
+    {
+        "q": "من هو أول من أسلم من النساء؟",
+        "options": [
+            "سمية بنت خياط",
+            "خديجة بنت خويلد رضي الله عنها",
+            "فاطمة بنت محمد",
+            "عائشة بنت أبي بكر"
+        ],
+        "correct": 1
+    },
+    {
+        "q": "من هو أول شهيد في الإسلام؟",
+        "options": [
+            "سمية بنت خياط رضي الله عنها",
+            "ياسر بن عامر",
+            "مصعب بن عمير",
+            "حارث بن أبي هالة"
+        ],
+        "correct": 0
+    },
+    {
+        "q": "ما اسم الناقة التي ركبها النبي صلى الله عليه وسلم يوم الهجرة إلى المدينة؟",
+        "options": [
+            "الجدعاء",
+            "العضباء",
+            "القصواء",
+            "الورقاء"
+        ],
+        "correct": 2
+    },
+    {
+        "q": "من هو الصحابي الذي رافق النبي صلى الله عليه وسلم في رحلة الهجرة النبوية؟",
+        "options": [
+            "عثمان بن عفان",
+            "أبو بكر الصديق رضي الله عنه",
+            "عبد الرحمن بن عوف",
+            "علي بن أبي طالب"
+        ],
+        "correct": 1
+    },
+    {
+        "q": "ما هو أول عمل قام به النبي صلى الله عليه وسلم فور وصوله قباء في هجرته؟",
+        "options": [
+            "توقيع معاهدة مع اليهود",
+            "بناء المسجد (مسجد قباء)",
+            "تجهيز الجيش",
+            "تنظيم التجارة"
+        ],
+        "correct": 1
+    },
+    {
+        "q": "بين من ومن آخى النبي صلى الله عليه وسلم بعد وصوله المدينة المنورة؟",
+        "options": [
+            "بين المهاجرين والأنصار",
+            "بين الأوس والخزرج",
+            "بين المهاجرين وقريش",
+            "بين قريش ويهود بني قينقاع"
+        ],
+        "correct": 0
+    },
+    {
+        "q": "ما هي الوثيقة أو الصحيفة التي كتبها النبي صلى الله عليه وسلم لتنظيم الحياة في المدينة بين أطيافها؟",
+        "options": [
+            "صحيفة المدينة (دستور المدينة)",
+            "معاهدة الحديبية",
+            "صحيفة الحرم",
+            "وثيقة نجران"
+        ],
+        "correct": 0
+    },
+    {
+        "q": "في أي سنة هجرتية وقعت غزوة بني قينقاع؟",
+        "options": [
+            "في السنة الرابعة للهجرة",
+            "في شوال من السنة الثانية للهجرة",
+            "في السنة الثالثة للهجرة",
+            "في السنة الخامسة للهجرة"
+        ],
+        "correct": 1
+    },
+    {
+        "q": "ما هو سبب غزوة بني قينقاع الرئيسية ضد المسلمين؟",
+        "options": [
+            "تحالفهم السري مع المشركين بمكة",
+            "رفضهم دفع الجزية",
+            "نقضهم العهد واعتدائهم على امرأة مسلمة في سوقهم",
+            "محاولتهم اغتيال النبي صلى الله عليه وسلم"
+        ],
+        "correct": 2
+    },
+    {
+        "q": "من هو الصحابي الذي توسط لإجلائهم وعدم قتلهم بعد حصار بني قينقاع؟",
+        "options": [
+            "عبد الله بن أبي سلول",
+            "عمر بن الخطاب",
+            "عبادة بن الصامت",
+            "أبو بكر الصديق"
+        ],
+        "correct": 0
+    },
+    {
+        "q": "في أي عام هجري وقعت غزوة بني النضير؟",
+        "options": [
+            "في السنة الثانية للهجرة",
+            "في السنة السادسة للهجرة",
+            "في ربيع الأول من السنة الرابعة للهجرة",
+            "في السنة الثامنة للهجرة"
+        ],
+        "correct": 2
+    },
+    {
+        "q": "ما هي السورة التي نزلت بأحداث قصة غزوة بني النضير وإجلائهم؟",
+        "options": [
+            "سورة الأحزاب",
+            "سورة الصف",
+            "سورة المنافقون",
+            "سورة الحشر"
+        ],
+        "correct": 3
+    },
+    {
+        "q": "في أي سنة هجرتية وقعت غزوة بني قريظة؟",
+        "options": [
+            "في ذي القعدة من السنة الخامسة للهجرة",
+            "في السنة التاسعة للهجرة",
+            "في السنة الثالثة للهجرة",
+            "في السنة السابعة للهجرة"
+        ],
+        "correct": 0
+    },
+    {
+        "q": "من هو الصحابي الذي حكم في بني قريظة فرضي النبي صلى الله عليه وسلم حكمه؟",
+        "options": [
+            "حارث بن اوس",
+            "سعد بن عبادة",
+            "أسيد بن حضير",
+            "سعد بن معاذ رضي الله عنه"
+        ],
+        "correct": 3
+    },
+    {
+        "q": "ما هي غزوة العسرة؟",
+        "options": [
+            "غزوة أحد",
+            "غزوة تبوك",
+            "غزوة حنين",
+            "غزوة بدر"
+        ],
+        "correct": 1
+    },
+    {
+        "q": "في أي عام هجري كانت غزوة تبوك؟",
+        "options": [
+            "في السنة العاشرة للهجرة",
+            "في السنة الثامنة للهجرة",
+            "في رجب من السنة التاسعة للهجرة",
+            "في السنة السابعة للهجرة"
+        ],
+        "correct": 2
+    },
+    {
+        "q": "كم عدد الخلفاء الراشدين رضي الله عنهم بعد وفاة النبي صلى الله عليه وسلم؟",
+        "options": [
+            "أربعة خلفاء",
+            "ستة خلفاء",
+            "ثلاثة خلفاء",
+            "خمسة خلفاء"
+        ],
+        "correct": 0
+    },
+    {
+        "q": "من هو أول الخلفاء الراشدين؟",
+        "options": [
+            "عمر بن الخطاب",
+            "عثمان بن عفان",
+            "علي بن أبي طالب",
+            "أبو بكر الصديق رضي الله عنه"
+        ],
+        "correct": 3
+    },
+    {
+        "q": "ما أبرز الأعمال التي قام بها أبو بكر الصديق في بداية خلافته؟",
+        "options": [
+            "جمع القرآن في مصحف واحد",
+            "تأسيس الأسطول الإسلامي",
+            "حرب المرتدين ومانعي الزكاة",
+            "فتح قارة أوربا"
+        ],
+        "correct": 2
+    },
+    {
+        "q": "من هو الخليفة الراشد الذي لُقّب بـ (فاروق الأمة)؟",
+        "options": [
+            "عمر بن الخطاب رضي الله عنه",
+            "علي بن أبي طالب",
+            "أبو بكر الصديق",
+            "عثمان بن عفان"
+        ],
+        "correct": 0
+    },
+    {
+        "q": "في عهد أي خليفة راشد تم فتح الشام والعراق ومصر؟",
+        "options": [
+            "عمر بن الخطاب رضي الله عنه",
+            "أبو بكر الصديق",
+            "علي بن أبي طالب",
+            "عثمان بن عفان"
+        ],
+        "correct": 0
+    },
+    {
+        "q": "من هو الخليفة الراشد الذي لُقّب بـ (ذو النورين)؟",
+        "options": [
+            "عمر بن الخطاب",
+            "علي بن أبي طالب",
+            "معاوية بن أبي سفيان",
+            "عثمان بن عفان رضي الله عنه"
+        ],
+        "correct": 3
+    },
+    {
+        "q": "ما هو الإنجاز العظيم المنسوب للخليفة عثمان بن عفان في جمع القرآن الكريم؟",
+        "options": [
+            "تفسير القرآن بالكامل",
+            "ترجمة القرآن للغة الفارسية",
+            "كتابة القرآن بماء الذهب",
+            "جمع القرآن على حرف واحد (رسم المصحف العثماني) وتوحيد القراءات"
+        ],
+        "correct": 3
+    },
+    {
+        "q": "من هو رابع الخلفاء الراشدين؟",
+        "options": [
+            "عثمان بن عفان",
+            "علي بن أبي طالب رضي الله عنه",
+            "معاوية بن أبي سفيان",
+            "الحسن بن علي"
+        ],
+        "correct": 1
+    },
+    {
+        "q": "في أي عام توفي النبي صلى الله عليه وسلم؟",
+        "options": [
+            "في العام الحادي عشر للهجرة (11 هـ)",
+            "في العام الثامن للهجرة",
+            "في العام العاشر للهجرة",
+            "في العام التاسع للهجرة"
+        ],
+        "correct": 0
+    },
+    {
+        "q": "ما اسم الجبل الذي رسا عليه سفينة نوح عليه السلام؟",
+        "options": [
+            "جبل الجودي",
+            "جبل تور",
+            "جبل حراء",
+            "جبل طويق"
+        ],
+        "correct": 0
+    },
+    {
+        "q": "من هو النبي الذي أُلقي في النار فجعلها الله عليه برداً وسلاماً؟",
+        "options": [
+            "عيسى عليه السلام",
+            "موسى عليه السلام",
+            "إبراهيم عليه السلام",
+            "نوح عليه السلام"
+        ],
+        "correct": 2
+    },
+    {
+        "q": "من هو النبي الذي فداه الله بذبح عظيم؟",
+        "options": [
+            "يعقوب عليه السلام",
+            "يوسف عليه السلام",
+            "إسماعيل عليه السلام",
+            "إسحاق عليه السلام"
+        ],
+        "correct": 2
+    },
+    {
+        "q": "ما اسم الأب الأكبر للأنبياء الذي يُلقب بخليل الرحمن؟",
+        "options": [
+            "آدم عليه السلام",
+            "موسى عليه السلام",
+            "نوح عليه السلام",
+            "إبراهيم عليه السلام"
+        ],
+        "correct": 3
+    },
+    {
+        "q": "من هو النبي الذي أُوتي الملك والحكمة وسخرت له الريح والجن؟",
+        "options": [
+            "داود عليه السلام",
+            "سليمان عليه السلام",
+            "يوسف عليه السلام",
+            "موسى عليه السلام"
+        ],
+        "correct": 1
+    },
+    {
+        "q": "من هو النبي الذي أُعطي الصبر الأيوبي العظيم على البلاء والمرض؟",
+        "options": [
+            "يعقوب عليه السلام",
+            "إدريس عليه السلام",
+            "أيوب عليه السلام",
+            "يونس عليه السلام"
+        ],
+        "correct": 2
+    },
+    {
+        "q": "من هو النبي الذي أُرسل إلى قوم عاد؟",
+        "options": [
+            "لوط عليه السلام",
+            "صالح عليه السلام",
+            "شعيب عليه السلام",
+            "هود عليه السلام"
+        ],
+        "correct": 3
+    },
+    {
+        "q": "من هو النبي الذي أُرسل إلى قوم ثمود؟",
+        "options": [
+            "نوح عليه السلام",
+            "هود عليه السلام",
+            "صالح عليه السلام",
+            "إبراهيم عليه السلام"
+        ],
+        "correct": 2
+    },
+    {
+        "q": "من هو النبي الذي أُرسل إلى أهل مدين؟",
+        "options": [
+            "لوط عليه السلام",
+            "إلياس عليه السلام",
+            "شعيب عليه السلام",
+            "يونس عليه السلام"
+        ],
+        "correct": 2
+    },
+    {
+        "q": "ما اسم المدينة التي بُنيت في العصر العباسي وأصبحت عاصمة للدولة بجانب بغداد؟",
+        "options": [
+            "مدينة البصرة",
+            "مدينة سامراء",
+            "مدينة الكوفة",
+            "مدينة القيروان"
+        ],
+        "correct": 1
+    },
+    {
+        "q": "من هو الخليفة الأموي الذي بنى قبة الصخرة المشرفة في القدس؟",
+        "options": [
+            "الوليد بن عبد الملك",
+            "عبد الملك بن مروان",
+            "معاوية بن أبي سفيان",
+            "عمر بن عبد العزيز"
+        ],
+        "correct": 1
+    },
+    {
+        "q": "من هو الخليفة الأموي الملقب بخامس الخلفاء الراشدين لعدله ورععه؟",
+        "options": [
+            "معاوية بن عبد الملك",
+            "هشام بن عبد الملك",
+            "عمر بن عبد العزيز",
+            "يزيد بن عبد الملك"
+        ],
+        "correct": 2
+    },
+    {
+        "q": "في أي عهد تم فتح شبه جزيرة الأندلس بقيادة طارق بن زياد وموسى بن نصير؟",
+        "options": [
+            "في العهد الأموي (خلافة الوليد بن عبد الملك)",
+            "في العهد العباسي",
+            "في العهد العثماني",
+            "في العهد الراشدي"
+        ],
+        "correct": 0
+    },
+    {
+        "q": "من هو القائد المسلم العظيم الذي فتح صقلية وجنوب إيطاليا في العصر الإسلامي الوسيط؟",
+        "options": [
+            "قُتيبة بن مسلم",
+            "أسد بن الفرات وبشار",
+            "طارق بن زياد",
+            "مسلمة بن عبد الملك"
+        ],
+        "correct": 1
+    },
+    {
+        "q": "ما هو اسم المعركة الفاصلة التي أنهت الدولة الساسانية الفارسية في عهد عمر بن الخطاب؟",
+        "options": [
+            "معركة اليرموك",
+            "معركة القادسية (ونهوند)",
+            "معركة عين جالوت",
+            "معركة بدر"
+        ],
+        "correct": 1
+    },
+    {
+        "q": "ما اسم المعركة الكبرى التي فتحت بلاد الشام بالكامل وكسرت جيش الروم في عهد عمر بن الخطاب؟",
+        "options": [
+            "معركة القادسية",
+            "معركة حطين",
+            "معركة اليرموك",
+            "معركة مؤتة"
+        ],
+        "correct": 2
+    },
+    {
+        "q": "من هو قائد المسلمين في معركة اليرموك الخالدة؟",
+        "options": [
+            "خالد بن الوليد رضي الله عنه",
+            "عمرو بن العاص",
+            "أبو عبيدة بن الجراح",
+            "عمر بن الخطاب"
+        ],
+        "correct": 0
+    },
+    {
+        "q": "من هو الفاتح المسلم الذي فتح مصر وخلص أهلها من حكم البيزنطيين؟",
+        "options": [
+            "خالد بن الوليد",
+            "عمرو بن العاص رضي الله عنه",
+            "معاوية بن أبي سفيان",
+            "سعد بن أبي وقاص"
+        ],
+        "correct": 1
+    },
+    {
+        "q": "ما هو اسم المدينة التي أسسها عمرو بن العاص لتكون عاصمة لمصر الإسلامية؟",
+        "options": [
+            "مدينة القاهرة",
+            "مدينة العريش",
+            "مدينة الفسطاط",
+            "مدينة الإسكندرية"
+        ],
+        "correct": 2
+    },
+    {
+        "q": "من هو القائد المسلم الذي فك أسر الأندلس وحررها من أطماع الفرنجة في معركة بلاط الشهداء الأولى؟",
+        "options": [
+            "عبد الرحمن الغافقي",
+            "عبد العزيز بن موسى",
+            "طارق بن زياد",
+            "موسى بن نصير"
+        ],
+        "correct": 0
+    }
+];
+        var cardsData = rawCardsData;(function(item) {
+            var originalOptions = [...item.options];
+            var correctText = originalOptions[item.correct];
+            
+            var shuffledOptions = originalOptions.sort(() => Math.random() - 0.5);
+            var newCorrectIndex = shuffledOptions.indexOf(correctText);
+            
+            return {
+                q: item.q,
+                options: shuffledOptions,
+                correct: newCorrectIndex
+            };
+        });
+
+        var originalCardsData = JSON.parse(JSON.stringify(cardsData));
+        var letters = ["أ", "ب", "ج", "د"];
+        var currentIndex = 0;
+        var score = 0;
+        var answersState = {};
+
+        const canvas = document.getElementById('drawCanvas');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+        let penActive = false;
+        let penColor = '#d4af37';
+        let penSize = 2.5;
+        let lastX = 0;
+        let lastY = 0;
+
+        function resizeCanvas() {
+            const wrapper = document.getElementById('quiz-app-wrapper');
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = canvas.width;
+            tempCanvas.height = canvas.height;
+            const tCtx = tempCanvas.getContext('2d');
+            tCtx.drawImage(canvas, 0, 0);
+
+            canvas.width = wrapper.offsetWidth;
+            canvas.height = wrapper.offsetHeight;
+            
+            ctx.drawImage(tempCanvas, 0, 0);
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('load', resizeCanvas);
+
+        function startQuizFromCover() {
+            document.getElementById('cover-screen').style.display = 'none';
+            document.getElementById('quiz-screen').style.display = 'block';
+            currentIndex = 0;
+            render();
+        }
+
+        function togglePen() {
+            penActive = !penActive;
+            const btn = document.getElementById('penToggleBtn');
+            const toolbar = document.getElementById('penToolbar');
+            
+            if (penActive) {
+                canvas.classList.add('drawing-active');
+                btn.classList.add('active');
+                btn.innerHTML = "✏️ إيقاف القلم";
+                toolbar.style.display = "flex";
+            } else {
+                canvas.classList.remove('drawing-active');
+                btn.classList.remove('active');
+                btn.innerHTML = "✏️ قلم الشرح الحقيقي";
+                toolbar.style.display = "none";
+            }
+        }
+
+        function setPenColor(color, element) {
+            penColor = color;
+            document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        function setPenSize(size) {
+            penSize = parseFloat(size);
+        }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function getPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+            return {
+                x: (clientX - rect.left) * (canvas.width / rect.width),
+                y: (clientY - rect.top) * (canvas.height / rect.height)
+            };
+        }
+
+        canvas.addEventListener('mousedown', startDraw);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDraw);
+        canvas.addEventListener('mouseleave', stopDraw);
+
+        canvas.addEventListener('touchstart', (e) => { startDraw(e); e.preventDefault(); }, { passive: false });
+        canvas.addEventListener('touchmove', (e) => { draw(e); e.preventDefault(); }, { passive: false });
+        canvas.addEventListener('touchend', stopDraw);
+
+        function startDraw(e) {
+            if (!penActive) return;
+            isDrawing = true;
+            const pos = getPos(e);
+            lastX = pos.x;
+            lastY = pos.y;
+        }
+
+        function draw(e) {
+            if (!isDrawing || !penActive) return;
+            const pos = getPos(e);
+            
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.strokeStyle = penColor;
+            ctx.lineWidth = penSize;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.stroke();
+
+            lastX = pos.x;
+            lastY = pos.y;
+        }
+
+        function stopDraw() {
+            isDrawing = false;
+        }
+
+        function render() {
+            document.getElementById('cover-screen').style.display = 'none';
+            document.getElementById('result-screen').style.display = 'none';
+            document.getElementById('quiz-screen').style.display = 'block';
+
+            if (cardsData.length === 0) {
+                showResult();
+                return;
+            }
+            if (currentIndex >= cardsData.length) {
+                currentIndex = cardsData.length - 1;
+            }
+
+            var item = cardsData[currentIndex];
+            document.getElementById("q-badge").innerText = "السؤال " + (currentIndex + 1);
+            document.getElementById("q-text").innerText = item.q;
+            document.getElementById("question-count").innerText = "السؤال " + (currentIndex + 1) + " من " + cardsData.length;
+            document.getElementById("total-q-badge").innerText = cardsData.length;
+            document.getElementById("progressBar").style.width = ((currentIndex + 1) / cardsData.length * 100) + "%";
+
+            var container = document.getElementById("options-container");
+            container.innerHTML = "";
+
+            var hasAnswered = answersState.hasOwnProperty(currentIndex);
+
+            for (var idx = 0; idx < item.options.length; idx++) {
+                (function(i) {
+                    var btn = document.createElement("button");
+                    btn.className = "opt-btn";
+                    
+                    var checkHtml = "";
+                    if (hasAnswered && i === item.correct) {
+                        checkHtml = '<span class="check-mark">✔</span>';
+                    }
+
+                    btn.innerHTML = '<span class="opt-text">' + item.options[i] + '</span>' + checkHtml + '<span class="opt-letter">' + letters[i] + '</span>';
+
+                    if (hasAnswered) {
+                        btn.disabled = true;
+                        if (i === item.correct) btn.className += " correct";
+                        else if (i === answersState[currentIndex]) btn.className += " wrong";
+                    } else {
+                        btn.onclick = function() {
+                            selectOption(i);
+                        };
+                    }
+                    container.appendChild(btn);
+                })(idx);
+            }
+            resizeCanvas();
+        }
+
+        function selectOption(selectedIndex) {
+            if (answersState.hasOwnProperty(currentIndex)) return;
+            answersState[currentIndex] = selectedIndex;
+            var item = cardsData[currentIndex];
+
+            if (selectedIndex === item.correct) {
+                score++;
+                document.getElementById("score-count").innerText = "النقاط: " + score;
+            }
+            render();
+        }
+
+        function resetCurrentAnswer() {
+            if (answersState.hasOwnProperty(currentIndex)) {
+                var prevSelected = answersState[currentIndex];
+                var item = cardsData[currentIndex];
+                if (prevSelected === item.correct) {
+                    score = Math.max(0, score - 1);
+                    document.getElementById("score-count").innerText = "النقاط: " + score;
+                }
+                delete answersState[currentIndex];
+                render();
+            }
+        }
+
+        function deleteCurrentQuestion() {
+            if (confirm("هل أنت متأكد من حذف هذه الشريحة / السؤال نهائياً؟")) {
+                if (answersState.hasOwnProperty(currentIndex)) {
+                    var prevSelected = answersState[currentIndex];
+                    if (prevSelected === cardsData[currentIndex].correct) {
+                        score = Math.max(0, score - 1);
+                        document.getElementById("score-count").innerText = "النقاط: " + score;
+                    }
+                }
+                cardsData.splice(currentIndex, 1);
+                delete answersState[currentIndex];
+                var newAnswers = {};
+                var keys = Object.keys(answersState).sort(function(a,b){return a-b;});
+                for(var k=0; k<keys.length; k++) {
+                    if(keys[k] > currentIndex) {
+                        newAnswers[keys[k]-1] = answersState[keys[k]];
+                    } else if(keys[k] < currentIndex) {
+                        newAnswers[keys[k]] = answersState[keys[k]];
+                    }
+                }
+                answersState = newAnswers;
+                clearCanvas();
+
+                if (currentIndex >= cardsData.length && currentIndex > 0) {
+                    currentIndex--;
+                }
+                render();
+            }
+        }
+
+        function nextQ() {
+            if (currentIndex < cardsData.length - 1) {
+                currentIndex++;
+                clearCanvas();
+                render();
+            } else {
+                showResult();
+            }
+        }
+
+        function prevQ() {
+            if (document.getElementById('cover-screen').style.display === 'flex') return;
+            if (currentIndex > 0) {
+                currentIndex--;
+                clearCanvas();
+                render();
+            } else {
+                document.getElementById('quiz-screen').style.display = 'none';
+                document.getElementById('result-screen').style.display = 'none';
+                document.getElementById('cover-screen').style.display = 'flex';
+            }
+        }
+
+        function showResult() {
+            document.getElementById("quiz-screen").style.display = "none";
+            document.getElementById("cover-screen").style.display = "none";
+            document.getElementById("result-screen").style.display = "block";
+            document.getElementById("final-score").style.display = "none";
+        }
+
+        function restartQuiz() {
+            cardsData = JSON.parse(JSON.stringify(originalCardsData));
+            currentIndex = 0; score = 0;
+            answersState = {};
+            clearCanvas();
+            document.getElementById("score-count").innerText = "النقاط: 0";
+            document.getElementById("result-screen").style.display = "none";
+            document.getElementById("quiz-screen").style.display = "none";
+            document.getElementById("cover-screen").style.display = "flex";
+        }
+
+        async function exportImage() {
+            const wasPenActive = penActive;
+            if (penActive) togglePen();
+
+            if (document.getElementById('cover-screen').style.display !== 'flex' && document.getElementById('result-screen').style.display !== 'block' && !answersState.hasOwnProperty(currentIndex)) {
+                answersState[currentIndex] = cardsData[currentIndex].correct;
+                render();
+            }
+
+            await document.fonts.ready;
+            html2canvas(document.getElementById("quiz-app-wrapper"), { scale: 2.5, useCORS: true }).then(canvasImg => {
+                const link = document.createElement("a");
+                link.download = `السيرة_النبوية_102.png`;
+                link.href = canvasImg.toDataURL("image/png");
+                link.click();
+
+                if (wasPenActive) togglePen();
+            });
+        }
+
+        function saveModifiedFile() {
+            var fullHtml = document.documentElement.outerHTML;
+            var startMarker = "var rawCardsData = [";
+            var endMarker = "var cardsData = rawCardsData.map";
+            
+            var startIndex = fullHtml.indexOf(startMarker);
+            var endIndex = fullHtml.indexOf(endMarker);
+            
+            if (startIndex !== -1 && endIndex !== -1) {
+                var newScriptBlock = "var rawCardsData = " + JSON.stringify(cardsData, null, 4) + ";\n        var cardsData = rawCardsData;";
+                fullHtml = fullHtml.substring(0, startIndex) + newScriptBlock + fullHtml.substring(endIndex + endMarker.length);
+            }
+
+            var blob = new Blob([fullHtml], { type: "text/html;charset=utf-8" });
+            var a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = "islamic_history_and_sirah_102.html";
+            a.click();
+        }
+
+        function printAllQuestionsPDF() {
+            var printWin = window.open('', '_blank');
+            var html = '<html dir="rtl"><head><title>تاريخ الأنبياء والسيرة النبوية وانتشار الإسلام - 102 سؤالاً</title>';
+            html += '<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&display=swap" rel="stylesheet">';
+            html += '<style>body{font-family:Cairo,sans-serif;padding:20px;direction:rtl;color:#0f172a;}';
+            html += '.q-box{margin-bottom:18px;border-bottom:1px solid #cbd5e1;padding-bottom:12px;page-break-inside:avoid;}';
+            html += '.q-title{font-weight:900;font-size:16px;margin-bottom:8px;color:#071c3d;}';
+            html += '.opts{display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:14px;font-weight:700;}';
+            html += '.correct{color:#047857;font-weight:900;}';
+            html += 'h1{text-align:center;color:#071c3d;margin-bottom:25px;font-size:24px;}';
+            html += '</style></head><body>';
+            html += '<h1>تاريخ الأنبياء والسيرة النبوية وانتشار الإسلام<br><span style="font-size:16px;color:#475569;">الصف الأول الثانوي | الفصل الدراسي الأول | 102 سؤالاً</span><br><span style="font-size:14px;color:#475569;">إعداد: إبراهيم أبوزيد | معلم ومدرب وباحث</span></h1>';
+
+            for (var i = 0; i < cardsData.length; i++) {
+                var item = cardsData[i];
+                html += '<div class="q-box">';
+                html += '<div class="q-title">' + (i + 1) + '. ' + item.q + '</div>';
+                html += '<div class="opts">';
+                for (var j = 0; j < item.options.length; j++) {
+                    var isCor = (j === item.correct) ? ' class="correct"' : '';
+                    html += '<div' + isCor + '>(' + letters[j] + ') ' + item.options[j] + (isCor ? ' ✔' : '') + '</div>';
+                }
+                html += '</div></div>';
+            }
+
+            html += '</body></html>';
+            printWin.document.write(html);
+            printWin.document.close();
+            printWin.focus();
+            setTimeout(function() {
+                printWin.print();
+            }, 600);
+        }
+    </script>
+
+</body></html>
